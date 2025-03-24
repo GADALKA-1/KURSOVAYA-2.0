@@ -1,33 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <Button
-        android:id="@+id/addButton"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Добавить пациента" />
+        android:text="Выберите врача"
+        android:textSize="16sp" />
 
-    <Button
-        android:id="@+id/listPatientsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Список пациентов" />
+    <Spinner
+        android:id="@+id/doctorSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/emptyTextView"
+        android:id="@+id/emptyPatientsTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:visibility="gone"
-        android:text="Нет пациентов"
+        android:text="У этого врача нет пациентов"
         android:textSize="16sp" />
 
     <ListView
-        android:id="@+id/listView"
+        android:id="@+id/patientsListView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="300dp" />
 </LinearLayout>
