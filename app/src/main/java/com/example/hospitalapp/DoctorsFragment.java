@@ -26,6 +26,7 @@ public class DoctorsFragment extends Fragment {
     private List<Patient> patientList;
     private DoctorAdapter doctorAdapter;
     private PatientAdapter patientAdapter;
+    private boolean isListVisible = false; // Переменная для отслеживания состояния списка
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,7 +43,11 @@ public class DoctorsFragment extends Fragment {
         Button attachedPatientsButton = view.findViewById(R.id.attachedPatientsButton);
         ListView listView = view.findViewById(R.id.listView);
         TextView emptyTextView = view.findViewById(R.id.emptyTextView);
-        listView.setEmptyView(emptyTextView); // Устанавливаем пустую View для ListView
+        listView.setEmptyView(emptyTextView);
+
+        // Изначально скрываем список
+        listView.setVisibility(View.GONE);
+        emptyTextView.setVisibility(View.GONE);
 
         addButton.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), AddDoctorActivity.class);
@@ -50,8 +55,20 @@ public class DoctorsFragment extends Fragment {
         });
 
         listDoctorsButton.setOnClickListener(v -> {
-            listView.setAdapter(doctorAdapter);
-            loadDoctors();
+            if (isListVisible) {
+                // Если список виден, скрываем его
+                listView.setVisibility(View.GONE);
+                emptyTextView.setVisibility(View.GONE);
+                listDoctorsButton.setText("Список врачей");
+                isListVisible = false;
+            } else {
+                // Если список скрыт, показываем его
+                listView.setAdapter(doctorAdapter);
+                loadDoctors();
+                listView.setVisibility(View.VISIBLE);
+                listDoctorsButton.setText("Скрыть список");
+                isListVisible = true;
+            }
         });
 
         attachedPatientsButton.setOnClickListener(v -> showAttachedPatientsDialog());
@@ -63,7 +80,6 @@ public class DoctorsFragment extends Fragment {
             }
         });
 
-        loadDoctors();
         return view;
     }
 
@@ -92,7 +108,7 @@ public class DoctorsFragment extends Fragment {
         Spinner doctorSpinner = dialogView.findViewById(R.id.doctorSpinner);
         ListView patientsListView = dialogView.findViewById(R.id.patientsListView);
         TextView emptyPatientsTextView = dialogView.findViewById(R.id.emptyPatientsTextView);
-        patientsListView.setEmptyView(emptyPatientsTextView); // Устанавливаем пустую View для ListView
+        patientsListView.setEmptyView(emptyPatientsTextView);
 
         ArrayAdapter<Doctor> spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, doctorList);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -180,6 +196,8 @@ public class DoctorsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        loadDoctors();
+        if (isListVisible) {
+            loadDoctors();
+        }
     }
 }

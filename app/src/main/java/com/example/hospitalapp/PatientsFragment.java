@@ -21,6 +21,7 @@ public class PatientsFragment extends Fragment {
     private HospitalDbHelper dbHelper;
     private List<Patient> patientList;
     private PatientAdapter adapter;
+    private boolean isListVisible = false; // Переменная для отслеживания состояния списка
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -32,11 +33,15 @@ public class PatientsFragment extends Fragment {
 
         ListView listView = view.findViewById(R.id.listView);
         TextView emptyTextView = view.findViewById(R.id.emptyTextView);
-        listView.setEmptyView(emptyTextView); // Устанавливаем пустую View для ListView
+        listView.setEmptyView(emptyTextView);
         listView.setAdapter(adapter);
 
         Button addButton = view.findViewById(R.id.addButton);
         Button listPatientsButton = view.findViewById(R.id.listPatientsButton);
+
+        // Изначально скрываем список
+        listView.setVisibility(View.GONE);
+        emptyTextView.setVisibility(View.GONE);
 
         addButton.setOnClickListener(v -> {
             Intent intent = new Intent(getActivity(), AddPatientActivity.class);
@@ -44,7 +49,19 @@ public class PatientsFragment extends Fragment {
         });
 
         listPatientsButton.setOnClickListener(v -> {
-            loadPatients();
+            if (isListVisible) {
+                // Если список виден, скрываем его
+                listView.setVisibility(View.GONE);
+                emptyTextView.setVisibility(View.GONE);
+                listPatientsButton.setText("Список пациентов");
+                isListVisible = false;
+            } else {
+                // Если список скрыт, показываем его
+                loadPatients();
+                listView.setVisibility(View.VISIBLE);
+                listPatientsButton.setText("Скрыть список");
+                isListVisible = true;
+            }
         });
 
         listView.setOnItemClickListener((parent, view1, position, id) -> {
@@ -54,7 +71,6 @@ public class PatientsFragment extends Fragment {
             }
         });
 
-        loadPatients();
         return view;
     }
 
@@ -117,6 +133,8 @@ public class PatientsFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        loadPatients();
+        if (isListVisible) {
+            loadPatients();
+        }
     }
 }
