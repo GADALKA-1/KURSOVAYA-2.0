@@ -26,7 +26,7 @@ public class DoctorsFragment extends Fragment {
     private List<Patient> patientList;
     private DoctorAdapter doctorAdapter;
     private PatientAdapter patientAdapter;
-    private boolean isListVisible = false; // Переменная для отслеживания состояния списка
+    private boolean isListVisible = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,7 +45,6 @@ public class DoctorsFragment extends Fragment {
         TextView emptyTextView = view.findViewById(R.id.emptyTextView);
         listView.setEmptyView(emptyTextView);
 
-        // Изначально скрываем список
         listView.setVisibility(View.GONE);
         emptyTextView.setVisibility(View.GONE);
 
@@ -56,13 +55,11 @@ public class DoctorsFragment extends Fragment {
 
         listDoctorsButton.setOnClickListener(v -> {
             if (isListVisible) {
-                // Если список виден, скрываем его
                 listView.setVisibility(View.GONE);
                 emptyTextView.setVisibility(View.GONE);
                 listDoctorsButton.setText("Список врачей");
                 isListVisible = false;
             } else {
-                // Если список скрыт, показываем его
                 listView.setAdapter(doctorAdapter);
                 loadDoctors();
                 listView.setVisibility(View.VISIBLE);
@@ -167,7 +164,9 @@ public class DoctorsFragment extends Fragment {
             String treatment = cursor.getString(cursor.getColumnIndexOrThrow("treatment"));
             String medications = cursor.getString(cursor.getColumnIndexOrThrow("medications"));
             String ward = cursor.getString(cursor.getColumnIndexOrThrow("ward"));
-            patientList.add(new Patient(id, firstName, lastName, dateOfBirth, phone, email, address, docId, diagnosis, treatment, medications, ward));
+            String admissionDate = cursor.getString(cursor.getColumnIndexOrThrow("admission_date")); // Добавляем
+            int admissionCount = cursor.getInt(cursor.getColumnIndexOrThrow("admission_count"));   // Добавляем
+            patientList.add(new Patient(id, firstName, lastName, dateOfBirth, phone, email, address, docId, diagnosis, treatment, medications, ward, admissionDate, admissionCount));
         }
         cursor.close();
         patientAdapter.notifyDataSetChanged();
@@ -186,7 +185,9 @@ public class DoctorsFragment extends Fragment {
                 "Диагноз: " + patient.getDiagnosis() + "\n" +
                 "Лечение: " + patient.getTreatment() + "\n" +
                 "Лекарства: " + patient.getMedications() + "\n" +
-                "Палата: " + patient.getWard();
+                "Палата: " + patient.getWard() + "\n" +
+                "Дата поступления: " + patient.getAdmissionDate() + "\n" +
+                "Количество поступлений: " + patient.getAdmissionCount();
         builder.setMessage(details);
 
         builder.setPositiveButton("Закрыть", (dialog, which) -> dialog.dismiss());

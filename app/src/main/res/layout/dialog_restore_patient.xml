@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/diagnosisEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Диагноз" />
+
+    <EditText
+        android:id="@+id/treatmentEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Метод лечения" />
+
+    <EditText
+        android:id="@+id/medicationsEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Лекарства" />
+
+    <EditText
+        android:id="@+id/wardEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Палата" />
+</LinearLayout>

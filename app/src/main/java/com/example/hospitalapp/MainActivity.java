@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
         TabAdapter adapter = new TabAdapter(getSupportFragmentManager());
         adapter.addFragment(new PatientsFragment(), "Пациенты");
         adapter.addFragment(new DoctorsFragment(), "Врачи");
+        adapter.addFragment(new ArchiveFragment(), "Архив");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

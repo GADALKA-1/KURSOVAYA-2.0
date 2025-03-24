@@ -1,6 +1,7 @@
 package com.example.hospitalapp;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -14,14 +15,17 @@ import android.widget.ListView;
 import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class PatientsFragment extends Fragment {
     private HospitalDbHelper dbHelper;
     private List<Patient> patientList;
     private PatientAdapter adapter;
-    private boolean isListVisible = false; // Переменная для отслеживания состояния списка
+    private boolean isListVisible = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -39,7 +43,6 @@ public class PatientsFragment extends Fragment {
         Button addButton = view.findViewById(R.id.addButton);
         Button listPatientsButton = view.findViewById(R.id.listPatientsButton);
 
-        // Изначально скрываем список
         listView.setVisibility(View.GONE);
         emptyTextView.setVisibility(View.GONE);
 
@@ -50,13 +53,11 @@ public class PatientsFragment extends Fragment {
 
         listPatientsButton.setOnClickListener(v -> {
             if (isListVisible) {
-                // Если список виден, скрываем его
                 listView.setVisibility(View.GONE);
                 emptyTextView.setVisibility(View.GONE);
                 listPatientsButton.setText("Список пациентов");
                 isListVisible = false;
             } else {
-                // Если список скрыт, показываем его
                 loadPatients();
                 listView.setVisibility(View.VISIBLE);
                 listPatientsButton.setText("Скрыть список");
@@ -91,7 +92,9 @@ public class PatientsFragment extends Fragment {
             String treatment = cursor.getString(cursor.getColumnIndexOrThrow("treatment"));
             String medications = cursor.getString(cursor.getColumnIndexOrThrow("medications"));
             String ward = cursor.getString(cursor.getColumnIndexOrThrow("ward"));
-            patientList.add(new Patient(id, firstName, lastName, dateOfBirth, phone, email, address, doctorId, diagnosis, treatment, medications, ward));
+            String admissionDate = cursor.getString(cursor.getColumnIndexOrThrow("admission_date"));
+            int admissionCount = cursor.getInt(cursor.getColumnIndexOrThrow("admission_count"));
+            patientList.add(new Patient(id, firstName, lastName, dateOfBirth, phone, email, address, doctorId, diagnosis, treatment, medications, ward, admissionDate, admissionCount));
         }
         cursor.close();
         adapter.notifyDataSetChanged();
@@ -110,23 +113,48 @@ public class PatientsFragment extends Fragment {
                 "Диагноз: " + patient.getDiagnosis() + "\n" +
                 "Лечение: " + patient.getTreatment() + "\n" +
                 "Лекарства: " + patient.getMedications() + "\n" +
-                "Палата: " + patient.getWard();
+                "Палата: " + patient.getWard() + "\n" +
+                "Дата поступления: " + patient.getAdmissionDate() + "\n" +
+                "Количество поступлений: " + patient.getAdmissionCount();
         builder.setMessage(details);
 
         builder.setPositiveButton("Закрыть", (dialog, which) -> dialog.dismiss());
         builder.setNegativeButton("Выписать", (dialog, which) -> {
-            dischargePatient(patient.getId(), position);
+            dischargePatient(patient, position);
         });
 
         builder.create().show();
     }
 
-    private void dischargePatient(int patientId, int position) {
+    private void dischargePatient(Patient patient, int position) {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
-        int rowsDeleted = db.delete("Patients", "patient_id = ?", new String[]{String.valueOf(patientId)});
-        if (rowsDeleted > 0) {
-            patientList.remove(position);
-            adapter.notifyDataSetChanged();
+
+        // Перемещаем пациента в архив
+        ContentValues archiveValues = new ContentValues();
+        archiveValues.put("patient_id", patient.getId());
+        archiveValues.put("first_name", patient.getFirstName());
+        archiveValues.put("last_name", patient.getLastName());
+        archiveValues.put("date_of_birth", patient.getDateOfBirth());
+        archiveValues.put("phone", patient.getPhone());
+        archiveValues.put("email", patient.getEmail());
+        archiveValues.put("address", patient.getAddress());
+        archiveValues.put("doctor_id", patient.getDoctorId());
+        archiveValues.put("diagnosis", patient.getDiagnosis());
+        archiveValues.put("treatment", patient.getTreatment());
+        archiveValues.put("medications", patient.getMedications());
+        archiveValues.put("ward", patient.getWard());
+        archiveValues.put("admission_date", patient.getAdmissionDate());
+        archiveValues.put("discharge_date", new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
+        archiveValues.put("admission_count", patient.getAdmissionCount());
+
+        long archiveRowId = db.insert("Archive", null, archiveValues);
+        if (archiveRowId != -1) {
+            // Удаляем пациента из таблицы Patients
+            int rowsDeleted = db.delete("Patients", "patient_id = ?", new String[]{String.valueOf(patient.getId())});
+            if (rowsDeleted > 0) {
+                patientList.remove(position);
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 

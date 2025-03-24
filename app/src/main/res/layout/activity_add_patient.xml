@@ -81,6 +81,12 @@
             android:layout_height="wrap_content"
             android:hint="Палата" />
 
+        <EditText
+            android:id="@+id/admissionDateEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Дата поступления (YYYY-MM-DD)" />
+
         <Button
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"

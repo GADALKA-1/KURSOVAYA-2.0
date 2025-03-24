@@ -13,9 +13,12 @@ public class Patient {
     private String treatment;
     private String medications;
     private String ward;
+    private String admissionDate; // Новое поле
+    private int admissionCount;  // Новое поле
 
     public Patient(int id, String firstName, String lastName, String dateOfBirth, String phone, String email,
-                   String address, int doctorId, String diagnosis, String treatment, String medications, String ward) {
+                   String address, int doctorId, String diagnosis, String treatment, String medications, String ward,
+                   String admissionDate, int admissionCount) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -28,6 +31,8 @@ public class Patient {
         this.treatment = treatment;
         this.medications = medications;
         this.ward = ward;
+        this.admissionDate = admissionDate;
+        this.admissionCount = admissionCount;
     }
 
     public int getId() { return id; }
@@ -42,4 +47,6 @@ public class Patient {
     public String getTreatment() { return treatment; }
     public String getMedications() { return medications; }
     public String getWard() { return ward; }
+    public String getAdmissionDate() { return admissionDate; }
+    public int getAdmissionCount() { return admissionCount; }
 }
