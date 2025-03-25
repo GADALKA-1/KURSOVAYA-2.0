@@ -4,7 +4,7 @@ public class Doctor {
     private int id;
     private String firstName;
     private String lastName;
-    private String middleName; // Новое поле для отчества
+    private String middleName;
     private String specialization;
 
     public Doctor(int id, String firstName, String lastName, String middleName, String specialization) {
@@ -15,9 +15,28 @@ public class Doctor {
         this.specialization = specialization;
     }
 
-    public int getId() { return id; }
-    public String getFirstName() { return firstName; }
-    public String getLastName() { return lastName; }
-    public String getMiddleName() { return middleName; }
-    public String getSpecialization() { return specialization; }
+    public int getId() {
+        return id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getMiddleName() {
+        return middleName;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    @Override
+    public String toString() {
+        return lastName + " " + firstName + " " + middleName + " (" + specialization + ")";
+    }
 }

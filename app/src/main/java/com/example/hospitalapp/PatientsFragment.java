@@ -1,6 +1,7 @@
 package com.example.hospitalapp;
 
 import android.app.AlertDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -12,10 +13,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class PatientsFragment extends Fragment {
     private HospitalDbHelper dbHelper;
@@ -110,11 +115,56 @@ public class PatientsFragment extends Fragment {
                 "Диагноз: " + patient.getDiagnosis() + "\n" +
                 "Лечение: " + patient.getTreatment() + "\n" +
                 "Лекарства: " + patient.getMedications() + "\n" +
-                "Палата: " + patient.getWard();
+                "Палата: " + patient.getWard() + "\n" +
+                "Количество поступлений: " + patient.getAdmissionCount(); // Добавляем строку с количеством поступлений
         builder.setMessage(details);
+
+        builder.setNeutralButton("Выписать", (dialog, which) -> {
+            dischargePatient(patient);
+        });
 
         builder.setPositiveButton("Закрыть", (dialog, which) -> dialog.dismiss());
         builder.create().show();
+    }
+
+    private void dischargePatient(Patient patient) {
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+        try {
+            ContentValues archiveValues = new ContentValues();
+            archiveValues.put("patient_id", patient.getId());
+            archiveValues.put("first_name", patient.getFirstName());
+            archiveValues.put("last_name", patient.getLastName());
+            archiveValues.put("middle_name", patient.getMiddleName());
+            archiveValues.put("date_of_birth", patient.getDateOfBirth());
+            archiveValues.put("phone", patient.getPhone());
+            archiveValues.put("email", patient.getEmail());
+            archiveValues.put("address", patient.getAddress());
+            archiveValues.put("doctor_id", patient.getDoctorId());
+            archiveValues.put("diagnosis", patient.getDiagnosis());
+            archiveValues.put("treatment", patient.getTreatment());
+            archiveValues.put("medications", patient.getMedications());
+            archiveValues.put("ward", patient.getWard());
+            archiveValues.put("admission_date", patient.getAdmissionDate());
+            archiveValues.put("discharge_date", new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date()));
+            archiveValues.put("admission_count", patient.getAdmissionCount());
+
+            long archiveRowId = db.insert("Archive", null, archiveValues);
+            if (archiveRowId != -1) {
+                int deletedRows = db.delete("Patients", "patient_id = ?", new String[]{String.valueOf(patient.getId())});
+                if (deletedRows > 0) {
+                    Toast.makeText(getContext(), "Пациент выписан", Toast.LENGTH_SHORT).show();
+                    loadPatients();
+                } else {
+                    Toast.makeText(getContext(), "Ошибка при удалении пациента", Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(getContext(), "Ошибка при добавлении в архив", Toast.LENGTH_SHORT).show();
+            }
+        } catch (Exception e) {
+            Toast.makeText(getContext(), "Ошибка: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        } finally {
+            db.close();
+        }
     }
 
     @Override
