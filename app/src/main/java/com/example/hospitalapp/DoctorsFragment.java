@@ -88,10 +88,9 @@ public class DoctorsFragment extends Fragment {
             int id = cursor.getInt(cursor.getColumnIndexOrThrow("doctor_id"));
             String firstName = cursor.getString(cursor.getColumnIndexOrThrow("first_name"));
             String lastName = cursor.getString(cursor.getColumnIndexOrThrow("last_name"));
+            String middleName = cursor.getString(cursor.getColumnIndexOrThrow("middle_name"));
             String specialization = cursor.getString(cursor.getColumnIndexOrThrow("specialization"));
-            String phone = cursor.getString(cursor.getColumnIndexOrThrow("phone"));
-            String email = cursor.getString(cursor.getColumnIndexOrThrow("email"));
-            doctorList.add(new Doctor(id, firstName, lastName, specialization, phone, email));
+            doctorList.add(new Doctor(id, firstName, lastName, middleName, specialization));
         }
         cursor.close();
         doctorAdapter.notifyDataSetChanged();
@@ -155,6 +154,7 @@ public class DoctorsFragment extends Fragment {
             int id = cursor.getInt(cursor.getColumnIndexOrThrow("patient_id"));
             String firstName = cursor.getString(cursor.getColumnIndexOrThrow("first_name"));
             String lastName = cursor.getString(cursor.getColumnIndexOrThrow("last_name"));
+            String middleName = cursor.getString(cursor.getColumnIndexOrThrow("middle_name"));
             String dateOfBirth = cursor.getString(cursor.getColumnIndexOrThrow("date_of_birth"));
             String phone = cursor.getString(cursor.getColumnIndexOrThrow("phone"));
             String email = cursor.getString(cursor.getColumnIndexOrThrow("email"));
@@ -164,9 +164,9 @@ public class DoctorsFragment extends Fragment {
             String treatment = cursor.getString(cursor.getColumnIndexOrThrow("treatment"));
             String medications = cursor.getString(cursor.getColumnIndexOrThrow("medications"));
             String ward = cursor.getString(cursor.getColumnIndexOrThrow("ward"));
-            String admissionDate = cursor.getString(cursor.getColumnIndexOrThrow("admission_date")); // Добавляем
-            int admissionCount = cursor.getInt(cursor.getColumnIndexOrThrow("admission_count"));   // Добавляем
-            patientList.add(new Patient(id, firstName, lastName, dateOfBirth, phone, email, address, docId, diagnosis, treatment, medications, ward, admissionDate, admissionCount));
+            String admissionDate = cursor.getString(cursor.getColumnIndexOrThrow("admission_date"));
+            int admissionCount = cursor.getInt(cursor.getColumnIndexOrThrow("admission_count"));
+            patientList.add(new Patient(id, firstName, lastName, middleName, dateOfBirth, phone, email, address, docId, diagnosis, treatment, medications, ward, admissionDate, admissionCount));
         }
         cursor.close();
         patientAdapter.notifyDataSetChanged();
@@ -178,6 +178,7 @@ public class DoctorsFragment extends Fragment {
 
         String details = "Имя: " + patient.getFirstName() + "\n" +
                 "Фамилия: " + patient.getLastName() + "\n" +
+                "Отчество: " + patient.getMiddleName() + "\n" +
                 "Дата рождения: " + patient.getDateOfBirth() + "\n" +
                 "Телефон: " + patient.getPhone() + "\n" +
                 "Email: " + patient.getEmail() + "\n" +
@@ -185,9 +186,7 @@ public class DoctorsFragment extends Fragment {
                 "Диагноз: " + patient.getDiagnosis() + "\n" +
                 "Лечение: " + patient.getTreatment() + "\n" +
                 "Лекарства: " + patient.getMedications() + "\n" +
-                "Палата: " + patient.getWard() + "\n" +
-                "Дата поступления: " + patient.getAdmissionDate() + "\n" +
-                "Количество поступлений: " + patient.getAdmissionCount();
+                "Палата: " + patient.getWard();
         builder.setMessage(details);
 
         builder.setPositiveButton("Закрыть", (dialog, which) -> dialog.dismiss());

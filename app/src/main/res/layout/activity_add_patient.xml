@@ -22,6 +22,12 @@
             android:hint="Фамилия" />
 
         <EditText
+            android:id="@+id/middleNameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Отчество" />
+
+        <EditText
             android:id="@+id/dobEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,17 +51,12 @@
             android:layout_height="wrap_content"
             android:hint="Адрес" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Лечащий врач"
-            android:textSize="16sp"
-            android:layout_marginTop="8dp" />
 
-        <Spinner
-            android:id="@+id/doctorSpinner"
+        <EditText
+            android:id="@+id/doctorEditText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="Лечащий врач" />
 
         <EditText
             android:id="@+id/diagnosisEditText"

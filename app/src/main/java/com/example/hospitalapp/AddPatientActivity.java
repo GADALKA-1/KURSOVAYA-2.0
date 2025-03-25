@@ -5,28 +5,36 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
+import android.widget.Button;
 import android.widget.Toast;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class AddPatientActivity extends AppCompatActivity {
     private static final String TAG = "AddPatientActivity";
     private HospitalDbHelper dbHelper;
-    private EditText firstNameEditText, lastNameEditText, dobEditText, phoneEditText, emailEditText, addressEditText,
-            diagnosisEditText, treatmentEditText, medicationsEditText, wardEditText, admissionDateEditText;
-    private Spinner doctorSpinner;
+    private EditText firstNameEditText, lastNameEditText, middleNameEditText, dobEditText, phoneEditText, emailEditText, addressEditText,
+            diagnosisEditText, treatmentEditText, medicationsEditText, wardEditText, admissionDateEditText, doctorEditText;
     private List<Doctor> doctorList;
-    private ArrayAdapter<Doctor> doctorAdapter;
+    private Map<String, List<String>> specializationDiagnoses;
+    private String[] currentDiagnoses = new String[0];
+    private Doctor selectedDoctor;
+    private final String[] specializations = {
+            "Терапевт", "Невролог", "Гинеколог", "Кардиолог", "Хирург",
+            "Онколог", "Педиатр", "Стоматолог", "Фармацевт"
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +45,7 @@ public class AddPatientActivity extends AppCompatActivity {
 
         firstNameEditText = findViewById(R.id.firstNameEditText);
         lastNameEditText = findViewById(R.id.lastNameEditText);
+        middleNameEditText = findViewById(R.id.middleNameEditText);
         dobEditText = findViewById(R.id.dobEditText);
         phoneEditText = findViewById(R.id.phoneEditText);
         emailEditText = findViewById(R.id.emailEditText);
@@ -46,21 +55,126 @@ public class AddPatientActivity extends AppCompatActivity {
         medicationsEditText = findViewById(R.id.medicationsEditText);
         wardEditText = findViewById(R.id.wardEditText);
         admissionDateEditText = findViewById(R.id.admissionDateEditText);
-        doctorSpinner = findViewById(R.id.doctorSpinner);
+        doctorEditText = findViewById(R.id.doctorEditText);
 
-        // Устанавливаем текущую дату по умолчанию
         String currentDate = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(new Date());
         admissionDateEditText.setText(currentDate);
 
-        doctorList = new ArrayList<>();
-        doctorAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, doctorList);
-        doctorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        doctorSpinner.setAdapter(doctorAdapter);
+        doctorEditText.setKeyListener(null);
+        diagnosisEditText.setKeyListener(null);
 
+        doctorEditText.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                showSpecializationDialog();
+                return true;
+            }
+            return false;
+        });
+
+        diagnosisEditText.setOnTouchListener((v, event) -> {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                showDiagnosisDialog();
+                return true;
+            }
+            return false;
+        });
+
+        doctorList = new ArrayList<>();
+        initializeSpecializationDiagnoses();
         loadDoctors();
 
         Button saveButton = findViewById(R.id.saveButton);
         saveButton.setOnClickListener(v -> savePatient());
+    }
+
+    private void initializeSpecializationDiagnoses() {
+        specializationDiagnoses = new HashMap<>();
+        specializationDiagnoses.put("Терапевт", Arrays.asList("ОРВИ и грипп", "Бронхит", "Гастрит", "Гипертония", "Анемия"));
+        specializationDiagnoses.put("Невролог", Arrays.asList("Остеохондроз", "Межпозвоночная грыжа", "Вегетососудистая дистония (ВСД)", "Невралгия", "Мигрень"));
+        specializationDiagnoses.put("Гинеколог", Arrays.asList("Эрозия шейки матки", "Кандидоз (молочница)", "Миома матки", "Поликистоз яичников", "Эндометриоз"));
+        specializationDiagnoses.put("Кардиолог", Arrays.asList("Гипертоническая болезнь", "Ишемическая болезнь сердца (ИБС)", "Аритмия", "Сердечная недостаточность", "Перикардит"));
+        specializationDiagnoses.put("Хирург", Arrays.asList("Грыжа (паховая, пупочная)", "Варикозное расширение вен", "Аппендицит", "Гнойные абсцессы", "Переломы пальца(ев)", "Переломы запястья", "Перелом лучевой кости", "Перелом ключицы", "Перелом нижней челюсти", "Перелом левого бедра", "Перелом правого бедра", "Перелом левых костей голени", "Перелом правых костей голени"));
+        specializationDiagnoses.put("Онколог", Arrays.asList("Рак молочной железы", "Рак легких", "Лейкоз (рак крови)", "Меланома", "Лимфома"));
+        specializationDiagnoses.put("Педиатр", Arrays.asList("Диатез", "Коклюш", "Корь", "Рахит", "Детские инфекции (ветрянка, краснуха)"));
+        specializationDiagnoses.put("Стоматолог", Arrays.asList("Кариес", "Пульпит", "Пародонтоз", "Гингивит", "Флюс (периостит)"));
+        specializationDiagnoses.put("Фармацевт", Arrays.asList("Головная боль", "Аллергия", "Боль в суставах", "Желудочно-кишечные расстройства"));
+    }
+
+    private void updateDiagnosisList(String specialization) {
+        List<String> diagnoses = specializationDiagnoses.get(specialization);
+        if (diagnoses != null) {
+            currentDiagnoses = diagnoses.toArray(new String[0]);
+        } else {
+            currentDiagnoses = new String[0];
+        }
+    }
+
+    private void showSpecializationDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Выберите специальность врача");
+
+        builder.setItems(specializations, (dialog, which) -> {
+            String selectedSpecialization = specializations[which];
+            showDoctorsDialog(selectedSpecialization);
+        });
+
+        builder.setNegativeButton("Отмена", (dialog, which) -> dialog.dismiss());
+        builder.create().show();
+    }
+
+    private void showDoctorsDialog(String specialization) {
+        List<Doctor> doctorsBySpecialization = new ArrayList<>();
+        for (Doctor doctor : doctorList) {
+            if (doctor.getSpecialization().equals(specialization)) {
+                doctorsBySpecialization.add(doctor);
+            }
+        }
+
+        if (doctorsBySpecialization.isEmpty()) {
+            Toast.makeText(this, "Нет врачей с этой специальностью", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        String[] doctorNames = new String[doctorsBySpecialization.size()];
+        for (int i = 0; i < doctorsBySpecialization.size(); i++) {
+            Doctor doctor = doctorsBySpecialization.get(i);
+            doctorNames[i] = doctor.getLastName() + " " + doctor.getFirstName() + " " + doctor.getMiddleName();
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Выберите врача (" + specialization + ")");
+
+        builder.setItems(doctorNames, (dialog, which) -> {
+            selectedDoctor = doctorsBySpecialization.get(which);
+            doctorEditText.setText(selectedDoctor.getLastName() + " " + selectedDoctor.getFirstName() + " " + selectedDoctor.getMiddleName());
+            updateDiagnosisList(selectedDoctor.getSpecialization());
+            diagnosisEditText.setText("");
+        });
+
+        builder.setNegativeButton("Отмена", (dialog, which) -> dialog.dismiss());
+        builder.create().show();
+    }
+
+    private void showDiagnosisDialog() {
+        if (selectedDoctor == null) {
+            Toast.makeText(this, "Сначала выберите врача", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (currentDiagnoses.length == 0) {
+            Toast.makeText(this, "Нет доступных диагнозов для этой специальности", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Выберите диагноз");
+
+        builder.setItems(currentDiagnoses, (dialog, which) -> {
+            diagnosisEditText.setText(currentDiagnoses[which]);
+        });
+
+        builder.setNegativeButton("Отмена", (dialog, which) -> dialog.dismiss());
+        builder.create().show();
     }
 
     private void loadDoctors() {
@@ -71,23 +185,21 @@ public class AddPatientActivity extends AppCompatActivity {
             int id = cursor.getInt(cursor.getColumnIndexOrThrow("doctor_id"));
             String firstName = cursor.getString(cursor.getColumnIndexOrThrow("first_name"));
             String lastName = cursor.getString(cursor.getColumnIndexOrThrow("last_name"));
+            String middleName = cursor.getString(cursor.getColumnIndexOrThrow("middle_name"));
             String specialization = cursor.getString(cursor.getColumnIndexOrThrow("specialization"));
-            String phone = cursor.getString(cursor.getColumnIndexOrThrow("phone"));
-            String email = cursor.getString(cursor.getColumnIndexOrThrow("email"));
-            doctorList.add(new Doctor(id, firstName, lastName, specialization, phone, email));
+            doctorList.add(new Doctor(id, firstName, lastName, middleName, specialization));
         }
         cursor.close();
 
         if (doctorList.isEmpty()) {
             Toast.makeText(this, "Список врачей пуст. Добавьте врача перед добавлением пациента.", Toast.LENGTH_LONG).show();
         }
-
-        doctorAdapter.notifyDataSetChanged();
     }
 
     private void savePatient() {
         String firstName = firstNameEditText.getText().toString().trim();
         String lastName = lastNameEditText.getText().toString().trim();
+        String middleName = middleNameEditText.getText().toString().trim();
         String dob = dobEditText.getText().toString().trim();
         String phone = phoneEditText.getText().toString().trim();
         String email = emailEditText.getText().toString().trim();
@@ -97,17 +209,25 @@ public class AddPatientActivity extends AppCompatActivity {
         String medications = medicationsEditText.getText().toString().trim();
         String ward = wardEditText.getText().toString().trim();
         String admissionDate = admissionDateEditText.getText().toString().trim();
-        Doctor selectedDoctor = (Doctor) doctorSpinner.getSelectedItem();
         int doctorId = selectedDoctor != null ? selectedDoctor.getId() : -1;
 
-        // Проверка обязательных полей
         if (firstName.isEmpty() || lastName.isEmpty() || dob.isEmpty() || admissionDate.isEmpty()) {
             Toast.makeText(this, "Заполните обязательные поля: имя, фамилия, дата рождения, дата поступления", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        if (doctorList.isEmpty() || doctorId == -1) {
-            Toast.makeText(this, "Выберите врача из списка", Toast.LENGTH_SHORT).show();
+        if (selectedDoctor == null || doctorId == -1) {
+            Toast.makeText(this, "Выберите врача", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (diagnosis.isEmpty()) {
+            Toast.makeText(this, "Выберите диагноз", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!isValidDateFormat(admissionDate)) {
+            Toast.makeText(this, "Некорректный формат даты поступления (ожидается YYYY-MM-DD)", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -115,6 +235,7 @@ public class AddPatientActivity extends AppCompatActivity {
         ContentValues values = new ContentValues();
         values.put("first_name", firstName);
         values.put("last_name", lastName);
+        values.put("middle_name", middleName);
         values.put("date_of_birth", dob);
         values.put("phone", phone);
         values.put("email", email);
@@ -125,12 +246,11 @@ public class AddPatientActivity extends AppCompatActivity {
         values.put("medications", medications);
         values.put("ward", ward);
         values.put("admission_date", admissionDate);
-        values.put("admission_count", 1); // Первое поступление
+        values.put("admission_count", 1);
 
         try {
             long newRowId = db.insert("Patients", null, values);
             if (newRowId != -1) {
-                // Сохраняем историю изменений
                 ContentValues historyValues = new ContentValues();
                 historyValues.put("patient_id", newRowId);
                 historyValues.put("diagnosis", diagnosis);
@@ -151,6 +271,15 @@ public class AddPatientActivity extends AppCompatActivity {
             Toast.makeText(this, "Ошибка добавления пациента: " + e.getMessage(), Toast.LENGTH_LONG).show();
         } finally {
             db.close();
+        }
+    }
+
+    private boolean isValidDateFormat(String date) {
+        try {
+            new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).parse(date);
+            return true;
+        } catch (Exception e) {
+            return false;
         }
     }
 }

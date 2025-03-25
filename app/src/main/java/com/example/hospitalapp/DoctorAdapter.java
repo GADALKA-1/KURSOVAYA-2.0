@@ -16,12 +16,14 @@ public class DoctorAdapter extends ArrayAdapter<Doctor> {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        Doctor doctor = getItem(position);
         if (convertView == null) {
             convertView = LayoutInflater.from(getContext()).inflate(android.R.layout.simple_list_item_1, parent, false);
         }
+
+        Doctor doctor = getItem(position);
         TextView textView = convertView.findViewById(android.R.id.text1);
-        textView.setText(doctor.getFirstName() + " " + doctor.getLastName() + " (" + doctor.getSpecialization() + ")");
+        textView.setText(doctor.getLastName() + " " + doctor.getFirstName() + " " + doctor.getMiddleName() + " (" + doctor.getSpecialization() + ")");
+
         return convertView;
     }
 }

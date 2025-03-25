@@ -18,6 +18,12 @@
         android:hint="Фамилия" />
 
     <EditText
+        android:id="@+id/middleNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Отчество" />
+
+    <EditText
         android:id="@+id/specializationEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
