@@ -7,6 +7,7 @@
         <item name="windowNoTitle">true</item>
         <item name="android:statusBarColor">@color/morning_frost_primary_background</item>
         <item name="android:navigationBarColor">@color/morning_frost_primary_background</item>
+
     </style>
 
     <!-- Morning Frost (Светлая тема) -->

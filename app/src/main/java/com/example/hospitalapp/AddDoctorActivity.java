@@ -147,6 +147,8 @@ public class AddDoctorActivity extends AppCompatActivity {
         // "new" — создаём новый объект
         // "AlertDialog.Builder" — конструктор класса
         // "this" — текущий объект (активность), передаётся как контекст для диалога
+
+
         builder.setTitle("Выберите специальность");
         // Устанавливаем заголовок диалога
         // "builder" — наш объект Builder
