@@ -1,7 +1,35 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.HospitalApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Midnight Forest (Тёмная тема) -->
+    <style name="Theme.MidnightForest" parent="Theme.AppCompat.DayNight.DarkActionBar">
+        <item name="android:windowBackground">@color/midnight_forest_primary_background</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/midnight_forest_primary_background</item>
+        <item name="android:navigationBarColor">@color/midnight_forest_primary_background</item>
+        <item name="primaryBackground">@color/midnight_forest_primary_background</item>
+        <item name="secondaryBackground">@color/midnight_forest_secondary_background</item>
+        <item name="accent1">@color/midnight_forest_accent_1</item>
+        <item name="accent2">@color/midnight_forest_accent_2</item>
+        <item name="textPrimary">@color/midnight_forest_text_primary</item>
+        <item name="textSecondary">@color/midnight_forest_text_secondary</item>
+        <item name="shadowColor">@color/midnight_forest_shadow</item>
+        <item name="buttonBackground">@color/midnight_forest_accent_1</item>
+        <item name="importantButtonBackground">@color/midnight_forest_accent_2</item>
+        <item name="gearIconTint">#FFEB3B</item>
+    </style>
+
+    <!-- Стили для закруглённых элементов (дублируем, чтобы они были доступны в ночном режиме) -->
+    <style name="RoundedButton">
+        <item name="android:background">@drawable/rounded_button_background</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
+    <style name="RoundedCard">
+        <item name="android:background">@drawable/rounded_card_background</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:elevation">4dp</item>
     </style>
 </resources>

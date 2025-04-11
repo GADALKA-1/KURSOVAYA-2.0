@@ -3,31 +3,47 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="?attr/primaryBackground">
 
-    <Button
-        android:id="@+id/addButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Добавить пациента" />
-
-    <Button
-        android:id="@+id/listPatientsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Список пациентов" />
-
-    <TextView
-        android:id="@+id/emptyTextView"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:gravity="center"
-        android:visibility="gone"
-        android:text="Нет пациентов"
-        android:textSize="16sp" />
+        android:layout_marginBottom="16dp">
+
+        <Button
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Добавить пациента"
+            style="@style/RoundedButton"
+            android:background="@drawable/rounded_button_background" />
+
+        <Button
+            android:id="@+id/listPatientsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Список пациентов"
+            style="@style/RoundedButton"
+            android:background="@drawable/rounded_button_background" />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent" />
+
+    <TextView
+        android:id="@+id/emptyTextView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="Нет пациентов"
+        android:textColor="?attr/textSecondary"
+        android:visibility="gone" />
+
 </LinearLayout>

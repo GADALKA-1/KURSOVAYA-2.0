@@ -3,37 +3,52 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="?attr/primaryBackground">
 
     <EditText
         android:id="@+id/searchDateEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Дата поступления (YYYY-MM-DD)" />
+        android:hint="Дата поступления (YYYY-MM-DD)"
+        android:background="@drawable/rounded_edittext_background"
+        android:padding="12dp"
+        android:textColor="?attr/textPrimary"
+        android:textColorHint="?attr/textSecondary" />
 
     <Button
         android:id="@+id/searchButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Поиск" />
+        android:layout_marginTop="8dp"
+        android:text="Поиск"
+        style="@style/RoundedButton"
+        android:background="@drawable/rounded_button_background" />
 
     <Button
         android:id="@+id/listArchiveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Список архива" />
+        android:layout_gravity="center"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp"
+        android:text="Список архива"
+        style="@style/RoundedButton"
+        android:background="@drawable/rounded_button_background" />
 
     <TextView
         android:id="@+id/emptyTextView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:visibility="gone"
-        android:text="Нет пациентов в архиве"
-        android:textSize="16sp" />
+        android:text="Нет записей в архиве"
+        android:textColor="?attr/textSecondary"
+        android:visibility="gone" />
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent" />
+
 </LinearLayout>

@@ -1,9 +1,63 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.HospitalApp" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Базовая тема приложения -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowBackground">@color/morning_frost_primary_background</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/morning_frost_primary_background</item>
+        <item name="android:navigationBarColor">@color/morning_frost_primary_background</item>
     </style>
 
-    <style name="Theme.HospitalApp" parent="Base.Theme.HospitalApp" />
+    <!-- Morning Frost (Светлая тема) -->
+    <style name="Theme.MorningFrost" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowBackground">@color/morning_frost_primary_background</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/morning_frost_primary_background</item>
+        <item name="android:navigationBarColor">@color/morning_frost_primary_background</item>
+        <item name="primaryBackground">@color/morning_frost_primary_background</item>
+        <item name="secondaryBackground">@color/morning_frost_secondary_background</item>
+        <item name="accent1">@color/morning_frost_accent_1</item>
+        <item name="accent2">@color/morning_frost_accent_2</item>
+        <item name="textPrimary">@color/morning_frost_text_primary</item>
+        <item name="textSecondary">@color/morning_frost_text_secondary</item>
+        <item name="shadowColor">@color/morning_frost_shadow</item>
+        <item name="buttonBackground">@color/morning_frost_accent_1</item>
+        <item name="importantButtonBackground">@color/morning_frost_accent_2</item>
+        <item name="gearIconTint">#FFD59A</item>
+    </style>
+
+    <!-- Golden Hour (Тёплая тема) -->
+    <style name="Theme.GoldenHour" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:windowBackground">@color/golden_hour_primary_background</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:statusBarColor">@color/golden_hour_primary_background</item>
+        <item name="android:navigationBarColor">@color/golden_hour_primary_background</item>
+        <item name="primaryBackground">@color/golden_hour_primary_background</item>
+        <item name="secondaryBackground">@color/golden_hour_secondary_background</item>
+        <item name="accent1">@color/golden_hour_accent_1</item>
+        <item name="accent2">@color/golden_hour_accent_2</item>
+        <item name="textPrimary">@color/golden_hour_text_primary</item>
+        <item name="textSecondary">@color/golden_hour_text_secondary</item>
+        <item name="shadowColor">@color/golden_hour_shadow</item>
+        <item name="buttonBackground">@color/golden_hour_accent_1</item>
+        <item name="importantButtonBackground">@color/golden_hour_accent_2</item>
+        <item name="gearIconTint">#FF7675</item>
+    </style>
+
+    <!-- Стили для закруглённых элементов -->
+    <style name="RoundedButton">
+        <item name="android:background">@drawable/rounded_button_background</item>
+        <item name="android:padding">12dp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:elevation">4dp</item>
+    </style>
+
+    <style name="RoundedCard">
+        <item name="android:background">@drawable/rounded_card_background</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:elevation">4dp</item>
+    </style>
 </resources>

@@ -9,19 +9,29 @@
         android:id="@+id/addButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Добавить врача" />
+        android:text="Добавить врача"
+        android:layout_marginBottom="8dp"
+        style="@style/RoundedButton"
+        android:background="@drawable/rounded_button_background"/>
+
 
     <Button
         android:id="@+id/listDoctorsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Список врачей" />
+        android:text="Список врачей"
+        android:layout_marginBottom="8dp"
+        style="@style/RoundedButton"
+        android:background="@drawable/rounded_button_background"/>
 
     <Button
         android:id="@+id/attachedPatientsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Прикреплённые пациенты" />
+        android:text="Прикреплённые пациенты"
+        android:layout_marginBottom="8dp"
+        style="@style/RoundedButton"
+        android:background="@drawable/rounded_button_background"/>
 
     <TextView
         android:id="@+id/emptyTextView"
@@ -30,7 +40,8 @@
         android:gravity="center"
         android:visibility="gone"
         android:text="Нет врачей"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        />
 
     <ListView
         android:id="@+id/listView"

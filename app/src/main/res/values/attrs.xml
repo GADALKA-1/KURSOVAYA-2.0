@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AppTheme">
+        <!-- Определяем кастомные атрибуты для использования в темах -->
+        <attr name="primaryBackground" format="reference|color" />
+        <attr name="secondaryBackground" format="reference|color" />
+        <attr name="accent1" format="reference|color" />
+        <attr name="accent2" format="reference|color" />
+        <attr name="textPrimary" format="reference|color" />
+        <attr name="textSecondary" format="reference|color" />
+        <attr name="shadowColor" format="reference|color" />
+        <attr name="buttonBackground" format="reference|color" />
+        <attr name="importantButtonBackground" format="reference|color" />
+        <attr name="gearIconTint" format="reference|color" />
+    </declare-styleable>
+</resources>

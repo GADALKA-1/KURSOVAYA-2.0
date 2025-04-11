@@ -2,96 +2,166 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="?attr/primaryBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        style="@style/RoundedCard">
 
         <EditText
             android:id="@+id/firstNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Имя" />
+            android:hint="Имя"
+            android:background="@drawable/rounded_edittext_background"
+            android:padding="12dp"
+            android:textColor="?attr/textPrimary"
+            android:textColorHint="?attr/textSecondary" />
 
         <EditText
             android:id="@+id/lastNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Фамилия" />
+            android:layout_marginTop="8dp"
+            android:hint="Фамилия"
+            android:background="@drawable/rounded_edittext_background"
+            android:padding="12dp"
+            android:textColor="?attr/textPrimary"
+            android:textColorHint="?attr/textSecondary" />
 
         <EditText
             android:id="@+id/middleNameEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Отчество" />
+            android:layout_marginTop="8dp"
+            android:hint="Отчество"
+            android:background="@drawable/rounded_edittext_background"
+            android:padding="12dp"
+            android:textColor="?attr/textPrimary"
+            android:textColorHint="?attr/textSecondary" />
 
         <EditText
             android:id="@+id/dobEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Дата рождения (YYYY-MM-DD)" />
+            android:layout_marginTop="8dp"
+            android:hint="Дата рождения (YYYY-MM-DD)"
+            android:background="@drawable/rounded_edittext_background"
+            android:padding="12dp"
+            android:textColor="?attr/textPrimary"
+            android:textColorHint="?attr/textSecondary" />
 
         <EditText
             android:id="@+id/phoneEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Телефон" />
+            android:layout_marginTop="8dp"
+            android:hint="Телефон"
+            android:background="@drawable/rounded_edittext_background"
+            android:padding="12dp"
+            android:textColor="?attr/textPrimary"
+            android:textColorHint="?attr/textSecondary" />
 
         <EditText
             android:id="@+id/emailEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email" />
+            android:layout_marginTop="8dp"
+            android:hint="Email"
+            android:background="@drawable/rounded_edittext_background"
+            android:padding="12dp"
+            android:textColor="?attr/textPrimary"
+            android:textColorHint="?attr/textSecondary" />
 
         <EditText
             android:id="@+id/addressEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Адрес" />
+            android:layout_marginTop="8dp"
+            android:hint="Адрес"
+            android:background="@drawable/rounded_edittext_background"
+            android:padding="12dp"
+            android:textColor="?attr/textPrimary"
+            android:textColorHint="?attr/textSecondary" />
 
 
         <EditText
             android:id="@+id/doctorEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Лечащий врач" />
+            android:layout_marginTop="8dp"
+            android:background="@drawable/rounded_edittext_background"
+            android:hint="Лечащий врач"
+            android:padding="12dp"
+            android:textColor="?attr/textPrimary"
+            android:textColorHint="?attr/textSecondary"/>
 
         <EditText
             android:id="@+id/diagnosisEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Диагноз" />
+            android:layout_marginTop="8dp"
+            android:hint="Диагноз"
+            android:background="@drawable/rounded_edittext_background"
+            android:padding="12dp"
+            android:textColor="?attr/textPrimary"
+            android:textColorHint="?attr/textSecondary" />
 
         <EditText
             android:id="@+id/treatmentEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Метод лечения" />
+            android:layout_marginTop="8dp"
+            android:hint="Метод лечения"
+            android:background="@drawable/rounded_edittext_background"
+            android:padding="12dp"
+            android:textColor="?attr/textPrimary"
+            android:textColorHint="?attr/textSecondary" />
 
         <EditText
             android:id="@+id/medicationsEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Лекарства" />
+            android:layout_marginTop="8dp"
+            android:hint="Лекарства"
+            android:background="@drawable/rounded_edittext_background"
+            android:padding="12dp"
+            android:textColor="?attr/textPrimary"
+            android:textColorHint="?attr/textSecondary" />
 
         <EditText
             android:id="@+id/wardEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Палата" />
+            android:layout_marginTop="8dp"
+            android:hint="Палата"
+            android:background="@drawable/rounded_edittext_background"
+            android:padding="12dp"
+            android:textColor="?attr/textPrimary"
+            android:textColorHint="?attr/textSecondary" />
 
         <EditText
             android:id="@+id/admissionDateEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Дата поступления (YYYY-MM-DD)" />
+            android:layout_marginTop="8dp"
+            android:hint="Дата поступления (YYYY-MM-DD)"
+            android:background="@drawable/rounded_edittext_background"
+            android:padding="12dp"
+            android:textColor="?attr/textPrimary"
+            android:textColorHint="?attr/textSecondary" />
 
         <Button
             android:id="@+id/saveButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Сохранить" />
+            android:layout_gravity="end"
+            android:layout_marginTop="16dp"
+            android:text="Сохранить"
+            style="@style/RoundedButton"
+            android:background="@drawable/important_button_background" />
     </LinearLayout>
 </ScrollView>
