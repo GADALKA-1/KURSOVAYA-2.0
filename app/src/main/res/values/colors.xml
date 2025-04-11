@@ -26,4 +26,17 @@
     <color name="golden_hour_text_primary">#2D3436</color>
     <color name="golden_hour_text_secondary">#636E72</color>
     <color name="golden_hour_shadow">#FF767520</color>
+
+    <!-- Цвета для тёмного режима -->
+    <color name="background_dark">#212121</color>
+    <color name="card_background">#424242</color>
+    <color name="text_white">#FFFFFF</color>
+    <color name="text_light_gray">#B0BEC5</color>
+    <!-- Цвета для светлого режима -->
+    <color name="background_light">#FFFFFF</color>
+    <color name="card_background_light">#F5F5F5</color>
+    <color name="text_dark">#212121</color>
+    <!-- Акцентный цвет -->
+    <color name="accent_yellow">#F5C518</color>
+    <color name="accent_yellow_dark">#E0B015</color>
 </resources>

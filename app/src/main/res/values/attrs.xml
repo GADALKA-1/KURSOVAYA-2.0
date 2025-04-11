@@ -11,6 +11,7 @@
         <attr name="shadowColor" format="reference|color" />
         <attr name="buttonBackground" format="reference|color" />
         <attr name="importantButtonBackground" format="reference|color" />
+        <attr name="cardBackground" format="color" />
         <attr name="gearIconTint" format="reference|color" />
     </declare-styleable>
 </resources>

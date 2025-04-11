@@ -11,6 +11,7 @@
         <item name="secondaryBackground">@color/midnight_forest_secondary_background</item>
         <item name="accent1">@color/midnight_forest_accent_1</item>
         <item name="accent2">@color/midnight_forest_accent_2</item>
+        <item name="cardBackground">#3A5F5F</item>
         <item name="textPrimary">@color/midnight_forest_text_primary</item>
         <item name="textSecondary">@color/midnight_forest_text_secondary</item>
         <item name="shadowColor">@color/midnight_forest_shadow</item>

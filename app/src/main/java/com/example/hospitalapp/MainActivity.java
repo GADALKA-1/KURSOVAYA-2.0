@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showThemeSelectionDialog() {
-        String[] themes = {"Светлая", "Тёмная", "Тёплая"};
+        String[] themes = {"Утренний Мороз", "Полуночный лес", "Золотой час"};
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Выберите тему");
         builder.setItems(themes, (dialog, which) -> {
